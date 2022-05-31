@@ -1,0 +1,107 @@
+<?php
+
+class projects extends Controller
+{
+    public function index(){
+        $app = $this->model("config");
+		$issue = $this->model("IssueModel");
+		
+		$app->set("title", "Networking Projects");
+		$app->set("load_dashboard_js", true);
+		
+		// navigations
+		$app->set('navigations', [
+			["title" => "Home", "url" => $app->load()['url']],
+			["title" => "Networking Projects"]
+		]);
+		
+		// manage recent reports
+		$recent_reports = $issue->get_unread_report();
+		$app->set('number_of_recent_report', count($recent_reports));
+		$app->set('recent_reports', $recent_reports);
+		
+		//$app->debug();
+		$this->view("project", $app->load());
+    }
+
+	public function record(){
+		$sessionName = "PROJECTADMIN";
+		$page = "record";
+		if(!isset($_SESSION[$sessionName])){
+			if(!isset($_GET['login'])){
+				$this->view('project_login');
+			}
+			
+			else {
+				if(isset($_POST['pwd']) && $_POST['pwd'] == '1zptxA'){
+					$_SESSION[$sessionName] = time();
+					header('location: ./' . $page);
+				}
+
+				else {
+					$this->view('project_login');
+				}
+			}
+		}
+
+		else {
+			$app = $this->model("config");
+			$db = $app->mjiinet();
+			
+			if(isset($_GET['rm'])){
+				$db->rmProject($_GET['rm']);
+				header('location: ./' . $page);
+			}
+
+			else {	
+				echo "<pre>";
+				print_r($db->printProjectRequest());
+			}
+		}
+	}
+
+	public function form(){
+		$app = $this->model("config");
+		$data = file_get_contents("php://input");
+		$data = json_decode($data, true);
+		
+		if(isset($data['title']) && isset($data['video_url']) && isset($data['description'])){
+			$db = $app->mjiinet();
+			
+			$params = [];
+
+			if(!$db->projectAdd($data['title'], $data['video_url'], $data['description'])){
+				$params = ['message' => 'fail'];
+			}
+
+			else {
+				$params = ['message' => 'ok'];
+			}
+
+			header("Content-Type: application/json");
+			echo json_encode($params);
+		}
+
+		else {
+			$issue = $this->model("IssueModel");
+			
+			$app->set("title", "Networking Projects");
+			$app->set("load_dashboard_js", true);
+			
+			// navigations
+			$app->set('navigations', [
+				["title" => "Home", "url" => $app->load()['url']],
+				["title" => "Networking Projects"]
+			]);
+			
+			// manage recent reports
+			$recent_reports = $issue->get_unread_report();
+			$app->set('number_of_recent_report', count($recent_reports));
+			$app->set('recent_reports', $recent_reports);
+			
+			//$app->debug();
+			$this->view("project_add_form", $app->load());
+		}
+		
+	}
+}

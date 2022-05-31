@@ -1,0 +1,63 @@
+<?php
+
+class announcement extends Controller
+{	
+	public function index(){
+		header("location: /announcement/show/all");
+	}
+	
+	public function show($id = 'all'){
+		$app 			= $this->model("config");
+		$issue 			= $this->model("IssueModel");
+		require_once "../app/models/Announcement.php";
+		$announcement 	= new \haikal\Announcement(); 
+		
+		// GLOBAL: manage recent reports
+		$recent_reports = $issue->get_unread_report();
+		$app->set('number_of_recent_report', count($recent_reports));
+		$app->set('recent_reports', $recent_reports);
+		
+		if($id == 'all'){
+			$app->set('title', "Announcement");
+			
+			// manage table
+			$app->set('manageTable', true);
+			
+			// navigations
+			$app->set('navigations', [
+				["title" => "Home", "url" => $app->load()['url']],
+				["title" => "Announcement"]
+			]);
+			
+			//$app->set('issues', $issue->show_issue_all());
+			$app->set('announcement', $announcement->show());
+			
+			//$app->debug();
+			$this->view("announcement_all", $app->load());
+		}
+		
+		else {
+			$current_announcement = $announcement->getPost($id);
+			if(!isset($current_announcement['id'])){
+				header("location: /announcement/show/all");
+			}
+			else{
+				if($current_announcement['id'] == ""){
+					header("location: /announcement/show/all");
+				}
+				else{
+					// navigations
+					$app->set('navigations', [
+						["title" => "Home", "url" => $app->load()['url']],
+						["title" => "Announcement", "url"=> $app->load()['url'] . "/announcement/show/all"],
+						["title" => "#" . $current_announcement['id']]
+					]);
+					
+					$app->set('title', "Announcement #" . $current_announcement['id'] . " - " . $current_announcement['title']);
+					$app->set('announcement', $current_announcement);
+					$this->view('announcement', $app->load());
+				}
+			}
+		}
+	}
+}

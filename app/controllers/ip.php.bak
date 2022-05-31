@@ -1,0 +1,15 @@
+<?php
+
+class ip extends Controller
+{
+	public function index(){
+		$file = "../../v2.haikalazizan.com/app/vendors/mjii.ip.json";
+		if(file_exists($file)){
+			$data = file_get_contents($file);
+			$data = json_decode($data, true);
+			if(isset($data['ip'])){
+				echo "<!doctype html><head><title>IP</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" /></head><body><h1>".$data['ip']."</h1></body></html>";
+			}
+		}
+	}
+}
