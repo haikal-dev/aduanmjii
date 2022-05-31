@@ -88,10 +88,11 @@
 			</a>
 		  </li>
       <li class="nav-item">
-			<a href="https://node.my/donate" target="_blank" class="nav-link">
+        
+			<a href="https://github.com/haikal-dev/aduanmjii" target="_blank" class="nav-link">
+        <i class="nav-icon fab fa-github"></i>
 				<p>
-					Donate<br/>
-          <small>For Maintenance / System Upgrade</small>
+					Improve code on GitHub
 				</p>
 			</a>
 		  </li>
