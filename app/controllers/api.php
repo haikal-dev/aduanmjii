@@ -6,7 +6,18 @@ class api extends Controller
 		http_response_code(403);
 	}
 
-	public function battery_stats($battery_id = ''){
+	public function curr_battery_stats(){
+		require_once "../app/models/mjiinetwork.php";
+		$mjiinet = new mjiinetwork();
+
+		header("Access-Control-Allow-Origin: *");
+		header("Access-Control-Allow-Headers: *");
+		header("Content-Type: application/json");
+		$data = $mjiinet->check_current_battery("12");
+		echo json_encode($data, JSON_PRETTY_PRINT);
+	}
+
+	public function battery_stats(){
 		require_once "../app/models/mjiinetwork.php";
 		$mjiinet = new mjiinetwork();
 
