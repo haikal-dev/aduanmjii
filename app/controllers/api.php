@@ -27,7 +27,7 @@ class api extends Controller
 			if(!$mjiinet->network_exists($id)){
 				echo json_encode([
 					'status' => 'fail',
-					'message' => $mjiinet->response['message']
+					'message' => $mjiinet->response['msg']
 				]);
 			}
 
