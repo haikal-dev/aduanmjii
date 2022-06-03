@@ -51,30 +51,24 @@ class api extends Controller
 	}
 
 	public function batt_update(){
-		if($id == '' || $voltage == ''){
-			http_response_code(403);
+		require_once "../app/models/mjiinetwork.php";
+		$mjiinet = new mjiinetwork();
+
+		$data = json_decode(file_get_contents("php://input"), true);
+		extract($data);
+		if(isset($id) && (isset($voltage))){
+			if($mjiinet->network_exists($id)){
+				$voltage = $voltage / 10;
+				$mjiinet->battery_update($id, $voltage);
+				echo "OK";
+			}
+			
+			else {
+				echo "NETWORK NOT EXIST!";
+			}
 		}
-
-		else {
-			require_once "../app/models/mjiinetwork.php";
-			$mjiinet = new mjiinetwork();
-
-			$data = json_decode(file_get_contents("php://input"), true);
-			extract($data);
-			if(isset($id) && (isset($voltage))){
-				if($app->network_exists($id)){
-					$voltage = $voltage / 10;
-					$mjiinet->battery_update($id, $voltage);
-					echo "OK";
-				}
-				
-				else {
-					echo "NETWORK NOT EXIST!";
-				}
-			}
-			else{
-				echo "UNDEFINED";
-			}
+		else{
+			echo "UNDEFINED";
 		}
 	}
 
