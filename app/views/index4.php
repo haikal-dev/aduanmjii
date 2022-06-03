@@ -137,7 +137,7 @@
                 </div>
               <div class="card-body">
                 <div class="tab-content p-0">
-                    <?php //require_once "../app/views/network_stats.php"; ?>
+                    <?php require_once "../app/views/network_stats.php"; ?>
                 </div>
               </div>
             </div>
