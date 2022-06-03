@@ -142,7 +142,7 @@
 $(function(){
 	setInterval(function(){
 		var xhr = new XMLHttpRequest();
-		var url = "https://v2.haikalazizan.com/mjii/api/tangki1.json";
+		var url = "<?=$url?>/api/battery_stats";
 		xhr.open("GET", url, true);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function () {
@@ -173,7 +173,7 @@ $(function(){
 		xhr.send();
 		
 		var xhr1 = new XMLHttpRequest();
-		var url1 = "https://v2.haikalazizan.com/mjii/api/current_tangki1.json";
+		var url1 = "<?=$url?>/api/curr_battery_stats";
 		xhr1.open("GET", url1, true);
 		xhr1.setRequestHeader("Content-Type", "application/json");
 		xhr1.onreadystatechange = function () {

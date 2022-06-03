@@ -6,6 +6,41 @@ class api extends Controller
 		http_response_code(403);
 	}
 
+	public function curr_battery_stats(){
+		require_once "../app/models/mjiinetwork.php";
+		$mjiinet = new mjiinetwork();
+
+		header("Access-Control-Allow-Origin: *");
+		header("Access-Control-Allow-Headers: *");
+		header("Content-Type: application/json");
+		$data = $mjiinet->check_current_battery("12");
+		echo json_encode($data, JSON_PRETTY_PRINT);
+	}
+
+	public function battery_stats(){
+		require_once "../app/models/mjiinetwork.php";
+		$mjiinet = new mjiinetwork();
+
+		$data = $mjiinet->check_battery("12");
+		$len = count($data);
+		$start = 0;
+		$limit = 50;
+		if($len >= $limit){
+			$start = $len - $limit;
+		}
+		$data = array_slice($data, $start);
+		
+		$arr = [];
+		foreach($data as $i => $k){
+			$arr[] = [$i, $k['voltage']];
+		}
+
+		header("Access-Control-Allow-Origin: *");
+		header("Access-Control-Allow-Headers: *");
+		header("Content-Type: application/json");
+		echo json_encode($arr, JSON_PRETTY_PRINT);
+	}
+
 	public function data_report_statistics(){
 		require_once "../app/models/IssueModel.php";
 		$issue = new IssueModel();
@@ -13,6 +48,59 @@ class api extends Controller
 
 		header('Content-type: application/json');
 		echo json_encode(['message' => $data], JSON_PRETTY_PRINT);
+	}
+
+	public function batt_update(){
+		if($id == '' || $voltage == ''){
+			http_response_code(403);
+		}
+
+		else {
+			require_once "../app/models/mjiinetwork.php";
+			$mjiinet = new mjiinetwork();
+
+			$data = json_decode(file_get_contents("php://input"), true);
+			extract($data);
+			if(isset($id) && (isset($voltage))){
+				if($app->network_exists($id)){
+					$voltage = $voltage / 10;
+					$mjiinet->battery_update($id, $voltage);
+					echo "OK";
+				}
+				
+				else {
+					echo "NETWORK NOT EXIST!";
+				}
+			}
+			else{
+				echo "UNDEFINED";
+			}
+		}
+	}
+
+	public function net_update($id = '', $stat = ''){
+		if($id == '' || $stat == ''){
+			http_response_code(403);
+		}
+
+		else {
+			require_once "../app/models/mjiinetwork.php";
+			$mjiinet = new mjiinetwork();
+
+			if(!$mjiinet->network_exists($id)){
+				echo json_encode([
+					'status' => 'fail',
+					'message' => $mjiinet->response['msg']
+				]);
+			}
+
+			else {
+				$mjiinet->network_update($id, strtolower($stat));
+				echo json_encode([
+					'status' => 'success'
+				]);
+			}
+		}
 	}
 	
 	public function announcement($page = 'index'){
