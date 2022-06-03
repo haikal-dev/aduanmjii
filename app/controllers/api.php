@@ -50,7 +50,7 @@ class api extends Controller
 		echo json_encode(['message' => $data], JSON_PRETTY_PRINT);
 	}
 
-	public function batt_update($id = '', $voltage = ''){
+	public function batt_update(){
 		if($id == '' || $voltage == ''){
 			http_response_code(403);
 		}
@@ -59,18 +59,21 @@ class api extends Controller
 			require_once "../app/models/mjiinetwork.php";
 			$mjiinet = new mjiinetwork();
 
-			$voltage = $voltage / 10;
-
-			if(!$mjiinet->battery_update($id, $voltage)){
-				echo json_encode([
-					'message' => 'fail'
-				]);
+			$data = json_decode(file_get_contents("php://input"), true);
+			extract($data);
+			if(isset($id) && (isset($voltage))){
+				if($app->network_exists($id)){
+					$voltage = $voltage / 10;
+					$mjiinet->battery_update($id, $voltage);
+					echo "OK";
+				}
+				
+				else {
+					echo "NETWORK NOT EXIST!";
+				}
 			}
-
-			else {
-				echo json_encode([
-					'message' => 'success'
-				]);
+			else{
+				echo "UNDEFINED";
 			}
 		}
 	}
