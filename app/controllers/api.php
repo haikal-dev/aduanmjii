@@ -32,7 +32,7 @@ class api extends Controller
 			}
 
 			else {
-				$mjiinet->network_update($id, strtolower($status));
+				$mjiinet->network_update($id, strtolower($stat));
 				echo json_encode([
 					'status' => 'fail',
 					'message' => $mjiinet->response['message']
