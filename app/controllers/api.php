@@ -6,6 +6,17 @@ class api extends Controller
 		http_response_code(403);
 	}
 
+	public function battery_stats($battery_id = ''){
+		require_once "../app/models/mjiinetwork.php";
+		$mjiinet = new mjiinetwork();
+
+		if($battery_id != ''){
+			echo json_encode([
+				'batt' => $mjiinet->check_battery($battery_id)
+			]);
+		}
+	}
+
 	public function data_report_statistics(){
 		require_once "../app/models/IssueModel.php";
 		$issue = new IssueModel();
