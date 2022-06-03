@@ -142,7 +142,7 @@
 $(function(){
 	setInterval(function(){
 		var xhr = new XMLHttpRequest();
-		var url = "https://<?=$url?>/api/battery_stats/12";
+		var url = "<?=$url?>/api/battery_stats/12";
 		xhr.open("GET", url, true);
 		xhr.setRequestHeader("Content-Type", "application/json");
 		xhr.onreadystatechange = function () {
