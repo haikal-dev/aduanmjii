@@ -7,7 +7,7 @@ class mjiinetwork extends Database
 {
 	public $db;
 	public $timeModel;
-	private $response;
+	public $response;
 	
 	public function __construct(){
 		$this->db = $this->connect("mjiinetwork");
