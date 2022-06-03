@@ -15,6 +15,29 @@ class api extends Controller
 		echo json_encode(['message' => $data], JSON_PRETTY_PRINT);
 	}
 
+	public function batt_update($id = '', $voltage = ''){
+		if($id == '' || $voltage == ''){
+			http_response_code(403);
+		}
+
+		else {
+			require_once "../app/models/mjiinetwork.php";
+			$mjiinet = new mjiinetwork();
+
+			if(!$mjiinet->battery_update($id, $voltage)){
+				echo json_encode([
+					'message' => 'fail'
+				]);
+			}
+
+			else {
+				echo json_encode([
+					'message' => 'success'
+				]);
+			}
+		}
+	}
+
 	public function net_update($id = '', $stat = ''){
 		if($id == '' || $stat == ''){
 			http_response_code(403);

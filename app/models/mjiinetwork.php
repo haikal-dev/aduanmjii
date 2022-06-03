@@ -104,6 +104,9 @@ class mjiinetwork extends Database
 	
 	public function battery_update($id, $voltage){
 		$created_at = time();
+		$id = $this->db->real_escape_string($id);
+		$voltage = $this->db->real_escape_string($voltage);
+		
 		$query = $this->db->query("INSERT INTO batteries(id, routerid, voltage, created_at) VALUES(NULL, '$id', '$voltage', '$created_at');");
 		return $query;
 	}
