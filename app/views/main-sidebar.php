@@ -71,14 +71,14 @@
 				</p>
 			</a>
 		  </li>
-      <li class="nav-item">
+      <!--<li class="nav-item">
 			<a href="<?=$url?>/changelog" class="nav-link">
 				<i class="nav-icon fas fa-archive"></i>
 				<p>
 					Version Update
 				</p>
 			</a>
-		  </li>
+		  </li>-->
 		  <li class="nav-item">
 			<a href="https://node.my" target="_blank" class="nav-link">
 				<i class="nav-icon fas fa-atom"></i>
