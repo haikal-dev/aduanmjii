@@ -11,9 +11,24 @@ class api extends Controller
 		$mjiinet = new mjiinetwork();
 
 		if($battery_id != ''){
-			echo json_encode([
-				'batt' => $mjiinet->check_battery($battery_id)
-			]);
+			$data = $mjiinet->check_battery("12");
+			$len = count($data);
+			$start = 0;
+			$limit = 50;
+			if($len >= $limit){
+				$start = $len - $limit;
+			}
+			$data = array_slice($data, $start);
+			
+			$arr = [];
+			foreach($data as $i => $k){
+				$arr[] = [$i, $k['voltage']];
+			}
+
+			header("Access-Control-Allow-Origin: *");
+			header("Access-Control-Allow-Headers: *");
+			header("Content-Type: application/json");
+			echo json_encode($arr, JSON_PRETTY_PRINT);
 		}
 	}
 
