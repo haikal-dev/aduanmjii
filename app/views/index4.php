@@ -98,7 +98,7 @@
                 <!-- /.card -->
             
                 <!-- Area chart -->
-                <div class="card">
+                <!--<div class="card">
                   <div class="card-header">
                     <h3 class="card-title">
                         <span class="badge badge-danger">LIVE</span> Tangki Air Voltage Monitoring<br/><span id="curVoltage"><i>(Loading current voltage...)</i></span>
@@ -114,15 +114,14 @@
                   <div class="card-body">
                     <div id="area-chart" style="height: 338px;" class="full-width-chart"></div>
                   </div>
-                  <!-- /.card-body-->
-                </div>
+                </div>-->
                 <!-- /.card -->
 
           </section>
 		  
           <!-- /.Left col -->
           <!-- right col (We are only adding the ID to make the widgets sortable)-->
-          <section class="col-lg-5 connectedSortable">
+          <!--<section class="col-lg-5 connectedSortable">
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">
@@ -136,13 +135,12 @@
 				          <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i>
                   </button>
                 </div>
-              </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content p-0">
-                    <?php require_once "../app/views/network_stats.php"; ?>
+                    <?php //require_once "../app/views/network_stats.php"; ?>
                 </div>
-              </div><!-- /.card-body -->
-            </div>
+              </div>
+            </div>-->
             <!-- /.card -->
 			
           </section>
