@@ -59,6 +59,8 @@ class api extends Controller
 			require_once "../app/models/mjiinetwork.php";
 			$mjiinet = new mjiinetwork();
 
+			$voltage = $voltage / 10;
+
 			if(!$mjiinet->battery_update($id, $voltage)){
 				echo json_encode([
 					'message' => 'fail'
