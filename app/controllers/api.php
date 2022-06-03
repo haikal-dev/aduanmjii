@@ -57,7 +57,7 @@ class api extends Controller
 		$data = json_decode(file_get_contents("php://input"), true);
 		extract($data);
 		if(isset($id) && (isset($voltage))){
-			if($app->network_exists($id)){
+			if($mjiinet->network_exists($id)){
 				$voltage = $voltage / 10;
 				$mjiinet->battery_update($id, $voltage);
 				echo "OK";
