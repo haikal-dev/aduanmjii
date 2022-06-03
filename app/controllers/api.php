@@ -14,6 +14,32 @@ class api extends Controller
 		header('Content-type: application/json');
 		echo json_encode(['message' => $data], JSON_PRETTY_PRINT);
 	}
+
+	public function net_update($id = '', $stat = ''){
+		if($id == '' || $stat == ''){
+			http_response_code(403);
+		}
+
+		else {
+			require_once "../app/models/mjiinetwork.php";
+			$mjiinet = new mjiinetwork();
+
+			if(!$mjiinet->network_exists($id)){
+				echo json_encode([
+					'status' => 'fail',
+					'message' => $mjiinet->response['message']
+				]);
+			}
+
+			else {
+				$mjiinet->network_update($id, strtolower($status));
+				echo json_encode([
+					'status' => 'fail',
+					'message' => $mjiinet->response['message']
+				]);
+			}
+		}
+	}
 	
 	public function announcement($page = 'index'){
 		if(isset($_SESSION['session']) && $_SESSION['session'] == 'admin'){
